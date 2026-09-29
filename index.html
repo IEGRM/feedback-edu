@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prueba STT - Feedback EDU</title>
+  <style>
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      max-width:760px;
+      margin:40px auto;
+      padding:0 18px;
+      background:#f7f8fb;
+      color:#1f2937
+    }
+    .card{
+      background:#fff;
+      border:1px solid #dfe3ea;
+      border-radius:16px;
+      padding:24px;
+      box-shadow:0 8px 24px rgba(0,0,0,.06)
+    }
+    textarea{
+      width:100%;
+      min-height:180px;
+      box-sizing:border-box;
+      padding:14px;
+      font-size:18px;
+      border:1px solid #cbd5e1;
+      border-radius:12px;
+      resize:vertical
+    }
+    button{
+      margin-top:14px;
+      padding:12px 18px;
+      border:0;
+      border-radius:10px;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer
+    }
+    #micBtn.recording{outline:3px solid rgba(220,38,38,.25)}
+    #status{margin-top:12px;font-weight:700}
+    .ok{color:#166534}
+    .err{color:#b91c1c}
+    .hint{font-size:14px;color:#475569;line-height:1.45}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Prueba de micrófono STT</h1>
+    <p class="hint">
+      Pulsa <b>🎙 Dictar</b>, permite el micrófono cuando Chrome lo solicite y habla.
+      El texto debe aparecer directamente en esta misma caja, sin abrir ventanas.
+    </p>
+
+    <textarea id="speechText" placeholder="El texto dictado aparecerá aquí..."></textarea>
+
+    <button type="button" id="micBtn">🎙 Dictar</button>
+    <div id="status">Listo.</div>
+  </div>
+
+<script>
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const field = document.getElementById('speechText');
+const btn = document.getElementById('micBtn');
+const statusEl = document.getElementById('status');
+
+let recognition = null;
+let listening = false;
+let baseText = '';
+
+function setStatus(text, type='') {
+  statusEl.textContent = text;
+  statusEl.className = type;
+}
+
+if (!SR) {
+  btn.disabled = true;
+  setStatus('Este navegador no soporta SpeechRecognition. Prueba con Chrome o Edge.', 'err');
+} else {
+  recognition = new SR();
+  recognition.lang = 'es-CO';
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  recognition.onstart = () => {
+    listening = true;
+    baseText = field.value.trim();
+    btn.textContent = '🛑 Detener';
+    btn.classList.add('recording');
+    setStatus('Escuchando...', 'ok');
+  };
+
+  recognition.onresult = (event) => {
+    let finalText = '';
+    let interimText = '';
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalText += t;
+      else interimText += t;
+    }
+
+    const spoken = (finalText || interimText).trim();
+    field.value = (baseText ? baseText + ' ' : '') + spoken;
+    field.dispatchEvent(new Event('input', {bubbles:true}));
+
+    setStatus(spoken ? 'Escribiendo lo que dices...' : 'Escuchando...', 'ok');
+
+    if (finalText.trim()) {
+      baseText = field.value.trim();
+    }
+  };
+
+  recognition.onerror = (event) => {
+    listening = false;
+    btn.textContent = '🎙 Dictar';
+    btn.classList.remove('recording');
+
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+      setStatus('Chrome negó el permiso del micrófono. Revisa el icono del candado en esta página y permite Micrófono.', 'err');
+    } else if (event.error === 'no-speech') {
+      setStatus('No se detectó voz. Pulsa Dictar e inténtalo nuevamente.', 'err');
+    } else {
+      setStatus('Error de reconocimiento: ' + event.error, 'err');
+    }
+  };
+
+  recognition.onend = () => {
+    listening = false;
+    btn.textContent = '🎙 Dictar';
+    btn.classList.remove('recording');
+    if (!statusEl.classList.contains('err')) {
+      setStatus('Dictado finalizado.', 'ok');
+    }
+  };
+
+  btn.addEventListener('click', () => {
+    if (listening) {
+      recognition.stop();
+      return;
+    }
+
+    try {
+      recognition.start();
+    } catch (e) {
+      setStatus('No se pudo iniciar el micrófono: ' + e.message, 'err');
+    }
+  });
+}
+</script>
+</body>
+</html>
