@@ -1,155 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prueba STT - Feedback EDU</title>
-  <style>
-    body{
-      font-family:Arial,Helvetica,sans-serif;
-      max-width:760px;
-      margin:40px auto;
-      padding:0 18px;
-      background:#f7f8fb;
-      color:#1f2937
-    }
-    .card{
-      background:#fff;
-      border:1px solid #dfe3ea;
-      border-radius:16px;
-      padding:24px;
-      box-shadow:0 8px 24px rgba(0,0,0,.06)
-    }
-    textarea{
-      width:100%;
-      min-height:180px;
-      box-sizing:border-box;
-      padding:14px;
-      font-size:18px;
-      border:1px solid #cbd5e1;
-      border-radius:12px;
-      resize:vertical
-    }
-    button{
-      margin-top:14px;
-      padding:12px 18px;
-      border:0;
-      border-radius:10px;
-      font-size:17px;
-      font-weight:700;
-      cursor:pointer
-    }
-    #micBtn.recording{outline:3px solid rgba(220,38,38,.25)}
-    #status{margin-top:12px;font-weight:700}
-    .ok{color:#166534}
-    .err{color:#b91c1c}
-    .hint{font-size:14px;color:#475569;line-height:1.45}
-  </style>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="card">
-    <h1>Prueba de micrófono STT</h1>
-    <p class="hint">
-      Pulsa <b>🎙 Dictar</b>, permite el micrófono cuando Chrome lo solicite y habla.
-      El texto debe aparecer directamente en esta misma caja, sin abrir ventanas.
-    </p>
+  <a class="skip" href="#main">Saltar al contenido principal</a>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <img id="brandLogo" class="brand-logo hidden" alt="Logo institucional">
+      <div>
+        <strong id="brandName">FEEDBACK+ EDU</strong>
+        <small>Retroalimentación formativa accesible</small>
+      </div>
+    </div>
+    <div class="actions" style="margin:0">
+      <button id="contrastBtn" class="ghost" aria-label="Activar alto contraste">◐ Contraste</button>
+    </div>
+  </header>
 
-    <textarea id="speechText" placeholder="El texto dictado aparecerá aquí..."></textarea>
+  <main id="main" tabindex="-1">
+    <section id="landing" class="card hero">
+      <div class="hero-badge">✨ Feedback que inspira</div>
+      <h1 id="welcomeTitle">Tu feedback, claro y accesible</h1>
+      <p id="welcomeSubtitle">Una experiencia visual, cercana y motivadora para aprender y mejorar.</p>
+      <div class="hero-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="hero-mascot-wrap" aria-hidden="true">
+        <img class="hero-mascot" src="data:image/jpeg;base64,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" alt="">
+      </div>
+      <div class="grid2">
+        <button class="primary big" onclick="showView('teacherLogin')">👩‍🏫 Soy docente</button>
+        <button class="secondary big" onclick="showView('studentLogin')">🎓 Soy estudiante</button>
+      </div>
+    </section>
 
-    <button type="button" id="micBtn">🎙 Dictar</button>
-    <div id="status">Listo.</div>
-  </div>
+    <section id="teacherLogin" class="card hidden">
+      <h2>Ingreso docente</h2>
+      <label>Correo<input id="tEmail" type="email" autocomplete="email"></label>
+      <label>Últimos 6 dígitos del documento<input id="tPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password"></label>
+      <div class="actions">
+        <button class="primary" onclick="teacherLogin()">Ingresar</button>
+        <button class="ghost" onclick="showView('landing')">← Volver al inicio</button>
+      </div>
+      <button class="linkbtn" onclick="showView('teacherRegister')">Crear cuenta docente</button>
+    </section>
 
-<script>
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    <section id="teacherRegister" class="card hidden">
+      <h2>Registro docente</h2>
+      <div class="grid2">
+        <label>Nombre completo<input id="rName"></label>
+        <label>Correo<input id="rEmail" type="email"></label>
+        <label>Documento de identidad<input id="rDocumento" type="text" inputmode="numeric" maxlength="20" autocomplete="off"></label>
+        <label>Institución<input id="rInst"></label>
+        <label>Tipo de institución
+          <select id="rInstType"><option>Colegio</option><option>Universidad</option></select>
+        </label>
+        <label>Municipio<input id="rMunicipio"></label>
+      </div>
+      <div class="actions">
+        <button id="registerTeacherBtn" class="primary" onclick="teacherRegister()">Registrarme</button>
+        <button class="ghost" onclick="showView('teacherLogin')">← Volver al ingreso docente</button>
+      </div>
+      <div id="registerStatus" class="result hidden" role="status" aria-live="polite"></div>
+    </section>
 
-const field = document.getElementById('speechText');
-const btn = document.getElementById('micBtn');
-const statusEl = document.getElementById('status');
+    <section id="studentLogin" class="card hidden">
+      <h2>Ingreso estudiante</h2>
+      <label>Número de documento<input id="sDoc" inputmode="numeric"></label>
+      <label>Código personal<input id="sCode" maxlength="6"></label>
+      <div class="actions">
+        <button class="primary" onclick="studentLogin()">Ver mi feedback</button>
+        <button class="ghost" onclick="showView('landing')">← Volver al inicio</button>
+      </div>
+      <p class="help">No necesitas contraseña. Usa el código que te entregó tu docente.</p>
+    </section>
 
-let recognition = null;
-let listening = false;
-let baseText = '';
+    <section id="teacherApp" class="hidden">
+      <div class="card teacher-head-card">
+        <h2 id="teacherWelcome">Panel docente</h2>
+        <button class="danger-soft" onclick="logoutTeacher()">Cerrar sesión</button>
+      </div>
 
-function setStatus(text, type='') {
-  statusEl.textContent = text;
-  statusEl.className = type;
-}
+      <section id="teacherHomePanel" class="card tpanel">
+        <span class="eyebrow">PANEL PRINCIPAL</span>
+        <h3>¿Qué deseas hacer?</h3>
+        <p class="help">Selecciona una opción para continuar. Tu sesión permanecerá abierta.</p>
+        <div class="grid2">
+          <button class="secondary big" onclick="showTeacherPanel('groupsPanel')">👥 Grupos y actividades</button>
+          <button class="secondary big" onclick="showTeacherPanel('importPanel')">📥 Importar estudiantes</button>
+          <button class="primary big" onclick="showTeacherPanel('evaluationPanel')">✍️ Nuevo feedback</button>
+          <button class="secondary big" onclick="showTeacherPanel('feedbacksPanel')">📚 Mis feedbacks</button>
+        </div>
+      </section>
 
-if (!SR) {
-  btn.disabled = true;
-  setStatus('Este navegador no soporta SpeechRecognition. Prueba con Chrome o Edge.', 'err');
-} else {
-  recognition = new SR();
-  recognition.lang = 'es-CO';
-  recognition.interimResults = true;
-  recognition.continuous = false;
+      <section id="groupsPanel" class="card tpanel hidden">
+        <div class="actions" style="justify-content:flex-start;margin-top:0">
+          <button class="ghost" onclick="showTeacherPanel('teacherHomePanel')">← Volver al panel principal</button>
+        </div>
+        <h3>Mis grupos</h3>
+        <div id="teacherGroupsList" class="list-stack"><div class="help">Cargando grupos…</div></div>
 
-  recognition.onstart = () => {
-    listening = true;
-    baseText = field.value.trim();
-    btn.textContent = '🛑 Detener';
-    btn.classList.add('recording');
-    setStatus('Escuchando...', 'ok');
-  };
+        <div class="section-divider"></div>
+        <div id="studentCodesSection">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">ACCESO DE ESTUDIANTES</span>
+              <h3>Códigos por grupo</h3>
+            </div>
+            <button class="ghost" onclick="loadGroupStudentCodes()">↻ Actualizar</button>
+          </div>
+          <p class="help">El estudiante recibe el código visible. El documento y el código también se ven en la hoja ESTUDIANTES.</p>
+          <div class="grid2 selection-box">
+            <label>Grupo
+              <select id="studentCodesGroup" onchange="loadGroupStudentCodes()"></select>
+            </label>
+            <div class="code-bulk-actions">
+              <button id="generateMissingCodesBtn" class="secondary" onclick="generateMissingStudentCodes()">Generar códigos faltantes</button>
+              <button id="downloadCodesDocxBtn" class="ghost" onclick="downloadGroupCodesDocx()">Generar reporte ALGA en Drive</button>
+            </div>
+          </div>
+          <div id="studentCodesStatus" class="help code-status" aria-live="polite"></div>
+          <div id="studentCodesList" class="list-stack"><div class="help">Selecciona un grupo para ver sus estudiantes.</div></div>
+        </div>
 
-  recognition.onresult = (event) => {
-    let finalText = '';
-    let interimText = '';
+        <div class="section-divider"></div>
+        <h3>Crear nuevo grupo</h3>
+        <div class="grid2">
+          <label>Nivel<select id="gNivel"><option>Escolar</option><option>Universidad</option></select></label>
+          <label>Grado / semestre<input id="gGrade"></label>
+          <label>Nombre del grupo<input id="gName" placeholder="7°1 / Grupo A"></label>
+          <label>Periodo<input id="gPeriod" placeholder="2026-2"></label>
+        </div>
+        <button class="primary" onclick="createGroup()">Crear grupo</button>
 
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const t = event.results[i][0].transcript;
-      if (event.results[i].isFinal) finalText += t;
-      else interimText += t;
-    }
+        <div class="section-divider"></div>
+        <h3>Actividades del período</h3>
+        <p class="help">Crea una vez el título de la actividad y reutilízalo al asignar feedback.</p>
+        <div class="grid2">
+          <label>Grupo<select id="activityGroup"></select></label>
+          <label>Nombre de la actividad<input id="activityName" maxlength="180" placeholder="Ej. Reading Quiz - Unit 3"></label>
+        </div>
+        <button class="secondary" onclick="createActivity()">+ Crear actividad</button>
+        <div id="activitiesList" class="list-stack"></div>
+      </section>
 
-    const spoken = (finalText || interimText).trim();
-    field.value = (baseText ? baseText + ' ' : '') + spoken;
-    field.dispatchEvent(new Event('input', {bubbles:true}));
+      <section id="importPanel" class="card tpanel hidden">
+        <div class="actions" style="justify-content:flex-start;margin-top:0">
+          <button class="ghost" onclick="showTeacherPanel('teacherHomePanel')">← Volver al panel principal</button>
+        </div>
+        <h3>Importar estudiantes desde Excel</h3>
+        <a class="ghost template-link" href="https://docs.google.com/spreadsheets/d/1pD8_aAi01Dc9g9TaHlBfxCnhc8YnRFPOEWclbylyAOs/export?format=xlsx" target="_blank" rel="noopener noreferrer">⬇ Descargar plantilla de Excel</a>
+        <label>Grupo<select id="importGroup"></select></label>
+        <label>Archivo .xlsx<input id="xlsxFile" type="file" accept=".xlsx,.xls"></label>
+        <button id="importStudentsBtn" class="primary" onclick="importExcel()">Importar</button>
+        <div id="importProgress" class="import-progress hidden" role="status" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="importProgressText">Importando estudiantes…</span>
+        </div>
+        <div id="importResult" class="result"></div>
+      </section>
 
-    setStatus(spoken ? 'Escribiendo lo que dices...' : 'Escuchando...', 'ok');
+      <section id="evaluationPanel" class="card tpanel hidden">
+        <div class="actions" style="justify-content:flex-start;margin-top:0">
+          <button class="ghost" onclick="showTeacherPanel('teacherHomePanel')">← Volver al panel principal</button>
+        </div>
+        <div class="panel-head">
+          <div><span class="eyebrow">RETROALIMENTACIÓN FORMATIVA</span><h3>Asignar nuevo feedback</h3></div>
+          <span id="evaluationProgress" class="progress-pill">0 / 10 criterios</span>
+        </div>
 
-    if (finalText.trim()) {
-      baseText = field.value.trim();
-    }
-  };
+        <div class="grid2 selection-box">
+          <label>1. Grupo
+            <select id="evalGroup" onchange="onEvaluationGroupChange()"></select>
+          </label>
+          <label>2. Estudiante
+            <select id="evalStudent" onchange="resetEvaluationForm(false)"></select>
+          </label>
+        </div>
+        <label>3. Actividad / asignación
+          <select id="evalAssignment" onchange="onAssignmentChange()"></select>
+        </label>
+        <label id="customAssignmentWrap" class="hidden">Otra actividad
+          <input id="evalAssignmentCustom" maxlength="180" placeholder="Escribe el título de la actividad">
+        </label>
 
-  recognition.onerror = (event) => {
-    listening = false;
-    btn.textContent = '🎙 Dictar';
-    btn.classList.remove('recording');
+        <div class="section-title"><strong>4. Rúbrica universal</strong><span>Selecciona un nivel de 1 a 5 en cada criterio.</span></div>
+        <div id="rubricContainer"></div>
 
-    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-      setStatus('Chrome negó el permiso del micrófono. Revisa el icono del candado en esta página y permite Micrófono.', 'err');
-    } else if (event.error === 'no-speech') {
-      setStatus('No se detectó voz. Pulsa Dictar e inténtalo nuevamente.', 'err');
-    } else {
-      setStatus('Error de reconocimiento: ' + event.error, 'err');
-    }
-  };
+        <div id="liveScore" class="score-summary">
+          <div><small>Nota provisional</small><strong id="liveGrade">—</strong></div>
+          <div><small>Puntaje</small><strong id="livePoints">0 / 50</strong></div>
+          <div><small>Nivel ALGA</small><strong id="liveLevel">—</strong></div>
+        </div>
 
-  recognition.onend = () => {
-    listening = false;
-    btn.textContent = '🎙 Dictar';
-    btn.classList.remove('recording');
-    if (!statusEl.classList.contains('err')) {
-      setStatus('Dictado finalizado.', 'ok');
-    }
-  };
+        <div class="actions">
+          <button class="secondary big" onclick="previewEvaluation()">Vista previa del feedback</button>
+        </div>
 
-  btn.addEventListener('click', () => {
-    if (listening) {
-      recognition.stop();
-      return;
-    }
+        <section id="teacherPreview" class="preview-card hidden" aria-live="polite">
+          <div class="preview-alga"><img id="previewGif" alt="ALGA"><div><span id="previewLevel" class="level-chip"></span><div id="previewStudent" class="preview-student"></div></div></div>
+          <h4>Fortalezas sugeridas</h4><div id="previewStrengths" class="preview-text"></div>
+          <h4>Aspectos por mejorar</h4><div id="previewImprovements" class="preview-text"></div>
+          <h4>Próximo reto</h4><p id="previewChallenge"></p>
+        </section>
 
-    try {
-      recognition.start();
-    } catch (e) {
-      setStatus('No se pudo iniciar el micrófono: ' + e.message, 'err');
-    }
-  });
-}
-</script>
+        <label>5. Comentario adicional del docente
+          <textarea id="teacherFeedback" rows="5" placeholder="Personaliza el mensaje. Puedes escribirlo o dictarlo."></textarea>
+        </label>
+        <div class="actions">
+          <button id="dictateBtn" type="button" class="mic-btn" aria-pressed="false" aria-controls="teacherFeedback" aria-keyshortcuts="Alt+M" onclick="toggleDictation('teacherFeedback',this)">🎙 Dictar</button>
+          <button onclick="stopDictation()">⏹ Detener</button>
+          <button onclick="speakText(document.getElementById('teacherFeedback').value)">🔊 Escuchar</button>
+        </div>
+        <button id="publishFeedbackBtn" class="primary big publish-btn" onclick="saveEvaluation()">Publicar feedback al estudiante</button>
+        <p class="help">Al publicar, el feedback quedará como <strong>NUEVO</strong> para el estudiante y no se eliminará del historial.</p>
+      </section>
+
+      <section id="feedbacksPanel" class="card tpanel hidden">
+        <div class="actions" style="justify-content:flex-start;margin-top:0">
+          <button class="ghost" onclick="showTeacherPanel('teacherHomePanel')">← Volver al panel principal</button>
+        </div>
+        <div class="panel-head">
+          <div><span class="eyebrow">SEGUIMIENTO</span><h3>Mis feedbacks enviados</h3></div>
+          <button class="ghost" onclick="loadTeacherFeedbacks()">↻ Actualizar</button>
+        </div>
+        <div class="grid2 selection-box">
+          <label>Grupo<select id="feedbackFilterGroup" onchange="loadTeacherFeedbacks()"></select></label>
+          <label>Estado<select id="feedbackFilterState" onchange="loadTeacherFeedbacks()">
+            <option value="">Todos</option>
+            <option value="NUEVO">Nuevo</option>
+            <option value="VISTO">Visto</option>
+            <option value="RESPONDIDO">Respondido</option>
+          </select></label>
+        </div>
+        <div id="teacherFeedbackList" class="list-stack"><div class="help">Selecciona filtros o actualiza para ver el historial.</div></div>
+      </section>
+    </section>
+
+    <section id="studentApp" class="hidden">
+      <div class="card teacher-head-card">
+        <h2>Mi feedback</h2>
+        <button class="danger-soft" onclick="logoutStudent()">← Cerrar sesión</button>
+      </div>
+      <div class="card accessibility" aria-label="Controles de accesibilidad">
+        <div class="actions" style="justify-content:space-between;align-items:center">
+          <strong>Accesibilidad</strong>
+
+        </div>
+        <div class="actions">
+          <button onclick="readCurrentFeedback()">🔊 Leer todo</button>
+          <button onclick="speechSynthesis.pause()">⏸ Pausar</button>
+          <button onclick="speechSynthesis.resume()">▶ Continuar</button>
+          <button onclick="speechSynthesis.cancel()">⏹ Detener</button>
+          <button onclick="toggleLargeText()">A+ Texto</button>
+        </div>
+      </div>
+      <div id="studentFeedbacks"></div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  
+  <script src="config.js"></script>
+  <script src="rpc-bridge.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
