@@ -209,8 +209,7 @@
           <textarea id="teacherFeedback" rows="5" placeholder="Personaliza el mensaje. Puedes escribirlo o dictarlo."></textarea>
         </label>
         <div class="actions">
-          <button id="dictateBtn" type="button" class="mic-btn" aria-pressed="false" aria-controls="teacherFeedback" aria-keyshortcuts="Alt+M" onclick="toggleDictation('teacherFeedback',this)">🎙 Dictar</button>
-          <button onclick="stopDictation()">⏹ Detener</button>
+          <button id="dictateBtn" type="button" class="mic-btn" aria-pressed="false" aria-controls="teacherFeedback" aria-keyshortcuts="Alt+M" onclick="toggleDictation('teacherFeedback',this)">🎙 Dictar</button>          
           <button onclick="speakText(document.getElementById('teacherFeedback').value)">🔊 Escuchar</button>
         </div>
         <button id="publishFeedbackBtn" class="primary big publish-btn" onclick="saveEvaluation()">Publicar feedback al estudiante</button>
