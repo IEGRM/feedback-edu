@@ -1,0 +1,138 @@
+/* FEEDBACK+ EDU · Juego "Ruta de Sintonía" (GitHub Pages) */
+.fbg{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#EAF6FF;color:#26305A;
+  font-family:'Baloo 2',ui-rounded,'Nunito','Segoe UI Rounded',system-ui,sans-serif;overflow:hidden}
+.fbg *{box-sizing:border-box}
+.fbg button{font-family:inherit}
+.fbg-hud{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border-bottom:2px solid #D7E6FF;z-index:3}
+.fbg-hud h2{margin:0;font-size:1.15rem;flex:1;line-height:1.1}
+.fbg-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#fff;border:2px solid #D7E6FF;font-weight:800;font-size:.95rem;white-space:nowrap}
+.fbg-pill.pts{border-color:#FFD76A;background:#FFF8DC}
+.fbg-pill.streak{border-color:#FFB4A8;background:#FFF1EE}
+.fbg-icon-btn{width:42px;height:42px;border-radius:50%;border:2px solid #D7E6FF;background:#fff;font-size:1.15rem;cursor:pointer;padding:0}
+.fbg-icon-btn:focus-visible,.fbg button:focus-visible,.fbg textarea:focus-visible{outline:4px solid #5B5BD6;outline-offset:2px}
+
+/* ---------- Mapa ---------- */
+.fbg-stage{position:relative;flex:0 0 auto;height:clamp(170px,34vh,300px);
+  background:linear-gradient(180deg,#BFE3FF 0%,#E3F4FF 46%,#C9EFD3 46.5%,#A9E2BA 100%);overflow:hidden}
+.fbg-cloud{position:absolute;font-size:2.2rem;opacity:.9;animation:fbgDrift 38s linear infinite}
+.fbg-cloud:nth-child(2){top:14%;font-size:1.6rem;animation-duration:52s;animation-delay:-20s}
+.fbg-cloud:nth-child(3){top:4%;font-size:2.6rem;animation-duration:64s;animation-delay:-40s}
+@keyframes fbgDrift{from{left:-12%}to{left:108%}}
+.fbg-map{position:absolute;inset:0;width:100%;height:100%}
+.fbg-trail-bg{fill:none;stroke:#F4D58D;stroke-width:34;stroke-linecap:round}
+.fbg-trail{fill:none;stroke:#FFF3C8;stroke-width:20;stroke-linecap:round;stroke-dasharray:2 22}
+.fbg-prog{fill:none;stroke:#5B5BD6;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .9s ease}
+.fbg-st circle{fill:#fff;stroke:#5B5BD6;stroke-width:4}
+.fbg-st.current circle{fill:#FFF8DC;stroke:#FFB703;stroke-width:6;animation:fbgPulse 1.4s ease-in-out infinite}
+.fbg-st.match circle{fill:#FFE27A;stroke:#E8A400}
+.fbg-st.close circle{fill:#DDEBFF;stroke:#5B8DEF}
+.fbg-st.over circle{fill:#FFD9D3;stroke:#E8596B}
+.fbg-st.under circle{fill:#D8F6E4;stroke:#2EAD6B}
+.fbg-st text{font-size:22px;text-anchor:middle;dominant-baseline:central}
+@keyframes fbgPulse{50%{stroke-width:10}}
+.fbg-deco{font-size:28px;text-anchor:middle;dominant-baseline:central;opacity:.95}
+#fbgAvatar circle{fill:#fff;stroke:#5B5BD6;stroke-width:4}
+#fbgAvatar text{font-size:34px;text-anchor:middle;dominant-baseline:central}
+
+/* ---------- Hoja inferior ---------- */
+.fbg-sheet{flex:1;overflow:auto;background:#fff;border-radius:28px 28px 0 0;margin-top:-22px;position:relative;z-index:2;
+  box-shadow:0 -10px 30px rgba(38,48,90,.12);padding:22px clamp(16px,4vw,40px) 40px}
+.fbg-inner{max-width:760px;margin:0 auto}
+.fbg-kicker{color:#6B7398;font-weight:700;font-size:.95rem;margin:0 0 4px}
+.fbg-title{font-size:clamp(1.45rem,3.6vw,2.1rem);line-height:1.1;margin:0 0 8px}
+.fbg-lead{font-size:1.06rem;line-height:1.5;margin:0 0 16px;color:#3B4470}
+.fbg-q{font-size:1.15rem;font-weight:800;margin:18px 0 10px}
+.fbg-levels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.fbg-lv{border:3px solid #E1E8FA;background:#F8FAFF;border-radius:20px;padding:12px 6px;cursor:pointer;text-align:center;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;font-weight:800;color:#26305A}
+.fbg-lv .ic{display:block;font-size:2rem;line-height:1.2}
+.fbg-lv .n{display:block;font-size:1.3rem}
+.fbg-lv .lb{display:block;font-size:.8rem;font-weight:700;color:#5A6390;line-height:1.15}
+.fbg-lv:hover{transform:translateY(-4px)}
+.fbg-lv[aria-pressed="true"]{border-color:#5B5BD6;background:#EEEEFF;transform:translateY(-6px) scale(1.04);box-shadow:0 10px 22px rgba(91,91,214,.25)}
+.fbg-desc{margin:14px 0 0;padding:14px 16px;border-radius:16px;background:#F4F6FF;border-left:6px solid #5B5BD6;line-height:1.5;min-height:3em}
+.fbg-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.fbg-btn{border:0;border-radius:16px;padding:14px 22px;font-size:1.05rem;font-weight:800;cursor:pointer;background:#EEF1FB;color:#26305A}
+.fbg-btn.go{background:#5B5BD6;color:#fff;box-shadow:0 8px 0 #3F3FA8;transform:translateY(-2px)}
+.fbg-btn.go:active{transform:translateY(4px);box-shadow:0 2px 0 #3F3FA8}
+.fbg-btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ---------- Duelo de miradas ---------- */
+.fbg-duel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:8px 0 6px}
+.fbg-vs{font-size:1.6rem;font-weight:900;color:#9AA3C7}
+.fbg-card{perspective:900px;height:170px}
+.fbg-card-in{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.3,1.4,.5,1);transform-style:preserve-3d}
+.fbg-card.flip .fbg-card-in{transform:rotateY(180deg)}
+.fbg-face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:10px;border:3px solid #E1E8FA;background:#F8FAFF}
+.fbg-face.back{transform:rotateY(180deg);background:#FFF8DC;border-color:#FFD76A}
+.fbg-face .who{font-weight:800;color:#5A6390;font-size:.95rem}
+.fbg-face .ic{font-size:2.8rem;line-height:1.15}
+.fbg-face .n{font-size:1.4rem;font-weight:900}
+.fbg-face .lb{font-size:.9rem;font-weight:700;color:#5A6390}
+.fbg-face.mystery .ic{animation:fbgWobble 1s ease-in-out infinite}
+@keyframes fbgWobble{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.fbg-verdict{margin:16px 0 0;padding:16px 18px;border-radius:18px;font-size:1.08rem;line-height:1.5;font-weight:700;animation:fbgPop .5s cubic-bezier(.3,1.6,.5,1)}
+.fbg-verdict.match{background:#FFF4C7;border:3px solid #FFD24D}
+.fbg-verdict.close{background:#E6F0FF;border:3px solid #9DBDFA}
+.fbg-verdict.over{background:#FFECE8;border:3px solid #F7A6A0}
+.fbg-verdict.under{background:#E3F8EC;border:3px solid #8EDCB0}
+.fbg-verdict .fbg-big{display:block;font-size:1.5rem;font-weight:900;margin-bottom:4px}
+@keyframes fbgPop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.fbg-evidence{margin-top:14px;display:grid;gap:10px}
+.fbg-evidence div{padding:12px 14px;border-radius:14px;background:#F6F7FC;line-height:1.5}
+.fbg-evidence strong{display:block;margin-bottom:2px}
+.fbg-shake{animation:fbgShake .55s ease}
+@keyframes fbgShake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+
+/* ---------- Efectos ---------- */
+.fbg-fx{position:fixed;inset:0;pointer-events:none;z-index:1002}
+.fbg-balloon{position:absolute;bottom:-90px;font-size:3.2rem;animation:fbgRise 4.2s ease-in forwards}
+@keyframes fbgRise{0%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(18px,-55vh) rotate(6deg)}100%{transform:translate(-12px,-115vh) rotate(-4deg)}}
+.fbg-puzzle{position:fixed;top:40%;font-size:4rem;z-index:1002;pointer-events:none}
+.fbg-puzzle.l{left:30%;animation:fbgBumpL 1.4s ease forwards}
+.fbg-puzzle.r{right:30%;animation:fbgBumpR 1.4s ease forwards;transform:scaleX(-1)}
+@keyframes fbgBumpL{0%{transform:translateX(-30vw);opacity:0}40%{transform:translateX(9vw);opacity:1}55%{transform:translateX(5vw) rotate(-14deg)}100%{transform:translateX(-14vw) rotate(-30deg);opacity:0}}
+@keyframes fbgBumpR{0%{transform:translateX(30vw) scaleX(-1);opacity:0}40%{transform:translateX(-9vw) scaleX(-1);opacity:1}55%{transform:translateX(-5vw) scaleX(-1) rotate(14deg)}100%{transform:translateX(14vw) scaleX(-1) rotate(30deg);opacity:0}}
+.fbg-rocket{position:fixed;left:50%;bottom:-80px;font-size:4rem;z-index:1002;pointer-events:none;animation:fbgLift 2.2s ease-in forwards}
+@keyframes fbgLift{to{transform:translate(-50%,-120vh)}}
+.fbg-float{position:fixed;font-size:2rem;z-index:1002;pointer-events:none;animation:fbgFloat 1.6s ease-out forwards}
+@keyframes fbgFloat{to{transform:translateY(-120px) scale(1.4);opacity:0}}
+
+/* ---------- Final ---------- */
+.fbg-summary{display:grid;gap:8px;margin:14px 0}
+.fbg-row{display:grid;grid-template-columns:1fr 64px 64px 34px;align-items:center;gap:8px;padding:10px 12px;border-radius:14px;background:#F6F7FC;
+  opacity:0;animation:fbgIn .4s ease forwards}
+.fbg-row .c{font-weight:700;line-height:1.2}
+.fbg-row .v{text-align:center;font-size:1.3rem}
+.fbg-row .v small{display:block;font-size:.75rem;color:#5A6390;font-weight:700}
+@keyframes fbgIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.fbg-badge{display:flex;align-items:center;gap:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#FFF4C7,#EEEEFF);margin:16px 0}
+.fbg-badge .medal{font-size:3.6rem;animation:fbgSpin 1.2s cubic-bezier(.3,1.5,.5,1)}
+@keyframes fbgSpin{from{transform:rotateY(540deg) scale(.4)}to{transform:none}}
+.fbg-badge h3{margin:0;font-size:1.35rem}
+.fbg-badge p{margin:2px 0 0}
+.fbg-grade{display:flex;align-items:center;gap:18px;padding:18px;border-radius:22px;background:#F4F6FF;margin:16px 0}
+.fbg-grade img{width:96px;height:96px;object-fit:contain;border-radius:18px;background:#fff}
+.fbg-grade .num{font-size:3rem;font-weight:900;line-height:1;color:#3F3FA8}
+.fbg-form label{display:block;font-weight:800;margin:14px 0 6px}
+.fbg-form textarea{width:100%;min-height:84px;border:3px solid #E1E8FA;border-radius:16px;padding:12px;font:inherit;font-size:1rem;resize:vertical}
+.fbg-mic{margin-top:6px;border:2px solid #D7E6FF;background:#fff;border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer}
+.fbg-mic.recording{background:#FFECE8;border-color:#E8596B}
+.fbg-quote{font-size:1.05rem;font-style:italic;padding:12px 16px;border-left:6px solid #FFD24D;background:#FFFBEA;border-radius:0 14px 14px 0;margin:12px 0}
+
+@media (max-width:620px){
+  .fbg-levels{grid-template-columns:repeat(5,minmax(54px,1fr));gap:6px}
+  .fbg-lv{padding:8px 2px;border-radius:14px}.fbg-lv .ic{font-size:1.5rem}.fbg-lv .lb{display:none}
+  .fbg-card{height:150px}.fbg-hud h2{font-size:0;flex:1}.fbg-hud h2::first-letter{font-size:1.4rem}.fbg-stage{height:150px}.fbg-pill{padding:4px 8px;font-size:.85rem}
+}
+body.high-contrast .fbg{background:#000;color:#fff}
+body.high-contrast .fbg-sheet,body.high-contrast .fbg-hud{background:#000;color:#fff;border-color:#fff}
+body.high-contrast .fbg-lv,body.high-contrast .fbg-face,body.high-contrast .fbg-desc,body.high-contrast .fbg-evidence div,
+body.high-contrast .fbg-row,body.high-contrast .fbg-verdict,body.high-contrast .fbg-badge,body.high-contrast .fbg-grade{background:#000;color:#fff;border:2px solid #fff}
+body.high-contrast .fbg-lv .lb,body.high-contrast .fbg-face .lb,body.high-contrast .fbg-face .who,body.high-contrast .fbg-kicker{color:#ffdf00}
+body.large-text .fbg{font-size:118%}
+@media (prefers-reduced-motion:reduce){
+  .fbg *,.fbg-fx *{animation:none!important;transition:none!important}
+  .fbg-puzzle,.fbg-rocket,.fbg-balloon,.fbg-float{display:none}
+}

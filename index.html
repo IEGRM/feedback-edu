@@ -3,7 +3,12 @@
 <head>
   <base target="_top">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; frame-src https://script.google.com https://*.googleusercontent.com https://accounts.google.com; connect-src 'self'; font-src 'self' data:; media-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>FEEDBACK+ EDU</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="game.css">
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido principal</a>
@@ -266,5 +271,6 @@
   <script src="config.js"></script>
   <script src="rpc-bridge.js"></script>
   <script src="app.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
