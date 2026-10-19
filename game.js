@@ -1,4 +1,3 @@
-/* FEEDBACK+ EDU · Juego "Ruta de Sintonía" (GitHub Pages) */
 (function(){
   const LV_ICON=['🌱','🌿','🌳','⭐','🏆'];
   const LV_DEF=['Inicial','En proceso','Adecuado','Destacado','Excelente'];
@@ -189,7 +188,7 @@
       setTimeout(()=>{
         const st=$('fbgSt'+G.i);if(st){st.classList.remove('current');st.classList.add(cls)}
         hud();effect(cls);
-        $('fbgAfter').innerHTML=`<div class="fbg-verdict ${cls}"><span class="fbg-big">${BIG[kind]}</span>${esc(phrase)} <span style="white-space:nowrap">+${gain} ✨</span></div>
+        $('fbgAfter').innerHTML=`<div class="fbg-verdict ${cls}"><span class="big">${BIG[kind]}</span>${esc(phrase)} <span style="white-space:nowrap">+${gain} ✨</span></div>
           <div class="fbg-evidence">
             <div><strong>👀 Lo que tu docente vio en tu trabajo</strong>${esc(tc.desc||tc.lb)}</div>
             ${next?`<div><strong>🪜 Para subir a ${next.ic} ${esc(next.lb)}</strong>${esc(next.desc||'Sigue fortaleciendo este criterio.')}</div>`:`<div><strong>🏆 Nivel máximo</strong>Mantén este estándar y comparte tu forma de trabajar.</div>`}
@@ -261,7 +260,7 @@
       <h3 style="margin-top:22px">Tu aporte para tu docente</h3>
       <p class="fbg-lead">Cuéntale qué aprendiste de este recorrido. Puedes escribir o dictar.</p>
       <div class="fbg-form">
-        ${[['gc_','¿Qué comprendí?'],['gm_','¿Qué voy a intentar mejorar?'],['ga_','¿Necesito ayuda en algo?']].map(q=>`<label for="${q[0]+id}">${q[1]}</label>
+        ${[['gc_','¿Qué concepto comprendiste y cómo lo explicarías con tus palabras?'],['gm_','¿Cómo aplicaste lo aprendido y qué paso vas a mejorar?'],['ga_','¿Qué actitud te ayudó a aprender, cuál necesitas ajustar y en qué necesitas apoyo?']].map(q=>`<label for="${q[0]+id}">${q[1]}</label>
           <textarea id="${q[0]+id}"></textarea>
           <button type="button" class="fbg-mic mic-btn" aria-pressed="false" aria-controls="${q[0]+id}" aria-label="Dictar respuesta: ${q[1]}" onclick="toggleDictation('${q[0]+id}',this)">🎙 Dictar</button>`).join('')}
       </div>

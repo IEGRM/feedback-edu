@@ -1,4 +1,3 @@
-/* FEEDBACK+ EDU · Juego "Ruta de Sintonía" (GitHub Pages) */
 .fbg{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#EAF6FF;color:#26305A;
   font-family:'Baloo 2',ui-rounded,'Nunito','Segoe UI Rounded',system-ui,sans-serif;overflow:hidden}
 .fbg *{box-sizing:border-box}
@@ -77,7 +76,7 @@
 .fbg-verdict.close{background:#E6F0FF;border:3px solid #9DBDFA}
 .fbg-verdict.over{background:#FFECE8;border:3px solid #F7A6A0}
 .fbg-verdict.under{background:#E3F8EC;border:3px solid #8EDCB0}
-.fbg-verdict .fbg-big{display:block;font-size:1.5rem;font-weight:900;margin-bottom:4px}
+.fbg-verdict .big{display:block;font-size:1.5rem;font-weight:900;margin-bottom:4px}
 @keyframes fbgPop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
 .fbg-evidence{margin-top:14px;display:grid;gap:10px}
 .fbg-evidence div{padding:12px 14px;border-radius:14px;background:#F6F7FC;line-height:1.5}
